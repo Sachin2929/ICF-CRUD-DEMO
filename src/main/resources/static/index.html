@@ -1,0 +1,432 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		table {
+  			border-collapse: collapse;
+  			border-spacing: 0;
+  			width: 100%;
+  			border: 1px solid #ddd;
+		}
+	
+		th, td {
+		border: 1px solid #dddddd;
+		  	text-align: left;  			  		
+  			padding: 5px 10px;
+  			width:80%
+		}
+		
+		tr:nth-child(even){background-color: #dddddd;}
+		
+					
+		/* The popup form - hidden by default */
+.form-popup {
+background-color: coral;
+overflow: scroll;
+  border: 3px solid red;
+  height:100%;  
+  width:60%;  
+  display: none;
+  position: fixed;
+  top: 0;  
+  left: 20%;   
+  text-align: center;  
+}
+
+.form-popup-add {
+background-color: coral;
+overflow: scroll;
+  border: 3px solid red;
+  height:100%;  
+  width:60%;  
+  display: none;
+  position: fixed;
+  top: 0;  
+  left: 20%;   
+  text-align: center;  
+}
+
+.form-container{
+	 text-align: center;
+}
+
+.form-container-add {
+	 text-align: center;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  color:black;
+}
+
+
+	</style>
+	    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<title>Employee Directory</title>
+	
+</head>
+
+<body>
+
+<div class="form-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+   <hr>
+		
+		<p class="h4 mb-4">Save Employee</p>		
+			<!-- Add hidden form field to handle update -->			
+			<input type="text" th:field="*{id}" value="" id="id" 
+			class="form-control mb-4 col-4" placeholder="Id" disabled/>
+			
+			<input type="text" th:field="*{firstName}" value="" id="fName" 
+					class="form-control mb-4 col-4" placeholder="First name">
+
+			<input type="text" th:field="*{lastName}" id="lName" value=""
+					class="form-control mb-4 col-4" placeholder="Last name">
+
+			<input type="text" th:field="*{email}" id="mail" value=""
+					class="form-control mb-4 col-4" placeholder="Email">
+					
+			<input type="text" th:field="*{employementId}" id="eId" value=""
+					class="form-control mb-4 col-4" placeholder="Employement Id">
+			
+			<input type="text" th:field="*{startDate}" id="sdate" 
+					class="form-control mb-4 col-4" placeholder="Start Date">
+				
+			<input type="text" th:field="*{designation}" id="desig" value=""
+					class="form-control mb-4 col-4" placeholder="Designation">
+					
+			<input type="text" th:field="*{department}" id="dept" value=""
+					class="form-control mb-4 col-4" placeholder="Department">
+					
+			<input type="text" th:field="*{endDate}" id="eDate" value=""
+					class="form-control mb-4 col-4" placeholder="End Date">
+					
+			<input type="text" th:field="*{status}" id="status" value=""
+					class="form-control mb-4 col-4" placeholder="Status">
+					
+			<input type="text" th:field="*{dob}" id="dob" value=""
+					class="form-control mb-4 col-4" placeholder="DOB">	
+					
+			<input type="text" th:field="*{reportingManager}" id="rm" value=""
+					class="form-control mb-4 col-4" placeholder="Reporting Manager">	
+					
+			<input type="text" th:field="*{gender}" id="gen" value=""
+					class="form-control mb-4 col-4" placeholder="Gender">	
+					
+			<input type="text" th:field="*{bloodGroup}" id="bGrp" value=""
+					class="form-control mb-4 col-4" placeholder=".Blood Group">	
+					
+				
+			<input type="text" th:field="*{address}" id="addr" value=""
+					class="form-control mb-4 col-4" placeholder="Address">																
+			
+			<button type="button" class="btn btn-info col-2" onclick="editForm()">Save</button>	
+			<button type="button" class="btn btn-info col-2" onclick="closeForm()">Close</button>	
+								
+		<hr>		        
+  </form>
+</div>
+
+<div class="form-popup-add" id="myFormAdd">
+  <form action="/action_page.php" class="form-container-add">
+   <hr>
+		
+		<p class="h4 mb-4">Add Employee</p>		
+			<!-- Add hidden form field to handle update -->						
+			
+			<input type="text" th:field="*{firstName}" value="" id="firstName" 
+					class="form-control mb-4 col-4" placeholder="First name" required>
+
+			<input type="text" th:field="*{lastName}" id="lastName" value=""
+					class="form-control mb-4 col-4" placeholder="Last name" required>
+
+			<input type="text" th:field="*{email}" id="email" value=""
+					class="form-control mb-4 col-4" placeholder="Email" required>
+					
+			<input type="text" th:field="*{employementId}" id="empId" value=""
+					class="form-control mb-4 col-4" placeholder="Employement Id" required>
+			
+			<input type="text" th:field="*{startDate}" id="startDate" 
+					class="form-control mb-4 col-4" placeholder="Start Date">
+				
+			<input type="text" th:field="*{designation}" id="designation" value=""
+					class="form-control mb-4 col-4" placeholder="Designation">
+					
+			<input type="text" th:field="*{department}" id="department" value=""
+					class="form-control mb-4 col-4" placeholder="Department">
+					
+			<input type="text" th:field="*{endDate}" id="endDate" value=""
+					class="form-control mb-4 col-4" placeholder="End Date">
+					
+			<input type="text" th:field="*{status}" id="stat" value=""
+					class="form-control mb-4 col-4" placeholder="Status">
+					
+			<input type="text" th:field="*{dob}" id="dofb" value=""
+					class="form-control mb-4 col-4" placeholder="DOB" required>	
+					
+			<input type="text" th:field="*{reportingManager}" id="reportManager" value=""
+					class="form-control mb-4 col-4" placeholder="Reporting Manager">	
+					
+			<input type="text" th:field="*{gender}" id="gender" value=""
+					class="form-control mb-4 col-4" placeholder="Gender" required>	
+					
+			<input type="text" th:field="*{bloodGroup}" id="bGroup" value=""
+					class="form-control mb-4 col-4" placeholder=".Blood Group">	
+					
+				
+			<input type="text" th:field="*{address}" id="address" value=""
+					class="form-control mb-4 col-4" placeholder="Address">																
+			
+			<input type="submit" class="btn btn-info col-2" onclick="openAdd()">	
+			<button type="button" class="btn btn-info col-2" onclick="closeAdd()">Close</button>						
+			<button type="button" class="btn btn-info col-2" onclick="resetForm()">Reset</button>
+		<hr>		        
+  </form>
+</div>
+
+<div id="employeesJson">
+	<section>
+	<table id='table'>		
+	<script>
+	
+	function openAddForm(){
+		document.getElementById("myFormAdd").style.display = "block"; 	
+	}
+	
+	function resetForm() {
+		firstName:document.getElementById("firstName").value="" ;
+		lastName:document.getElementById("lastName").value="";
+    	email:document.getElementById("email").value="";
+		employementId:document.getElementById("empId").value="";
+    	startDate:document.getElementById("startDate").value="";
+		designation:document.getElementById("designation").value="";
+    	department:document.getElementById("department").value="";
+		endDate:document.getElementById("endDate").value="";
+    	status:document.getElementById("stat").value="";
+		dob:document.getElementById("dofb").value="";
+    	reportingManager:document.getElementById("reportManager").value="";
+		gender:document.getElementById("gender").value="";
+    	bloodGroup:document.getElementById("bGroup").value="";
+		address:document.getElementById("address").value="";
+	}
+	
+	function openAdd(){
+		$.ajax({
+	        url: '/employees/add',
+	        type: 'Post',
+	        contentType: 'application/json; charset=utf-8',
+	        headers: {'Auth-Key': '87bhxyzbhsg3455678csbabcy987656'},
+	        cache: false,
+	        dataType: 'json',
+	        async: false,
+	        data: JSON.stringify({firstName:document.getElementById("firstName").value ,lastName:document.getElementById("lastName").value,
+	        	email:document.getElementById("email").value,employementId:document.getElementById("empId").value,
+	        	startDate:document.getElementById("startDate").value,designation:document.getElementById("designation").value,
+	        	department:document.getElementById("department").value,endDate:document.getElementById("endDate").value,
+	        	status:document.getElementById("stat").value,dob:document.getElementById("dofb").value,
+	        	reportingManager:document.getElementById("reportManager").value,gender:document.getElementById("gender").value,
+	        	bloodGroup:document.getElementById("bGroup").value,address:document.getElementById("address").value}),		      
+	        	
+	     		success: function(data){
+		        alert('horray! Account Created Succesfully for Employee "'+ data.firstName +' "\nEmployee Id '+data.id); 
+		        var Table = document.getElementById("table");
+	        	Table.innerHTML = "";
+	        	closeAdd();
+	            dispList();
+		    },
+		    error: function(data){
+		        //get the status code
+		        if (code == 400) {
+		            alert('400 status code! user error');
+		        }
+		        if (code == 500) {
+		            alert('500 status code! server error');
+		        }
+		    },
+	    });				 
+	}
+	function closeAdd(){
+		 document.getElementById("myFormAdd").style.display = "none"; 	
+	}
+	function openForm(value) {	
+		console.log("hii");
+			$.getJSON("/employees/employeeList/"+value, function(result) {
+				document.getElementById("id").value = result.id;
+				document.getElementById("fName").value = result.firstName;
+				document.getElementById("lName").value = result.lastName;
+				document.getElementById("mail").value = result.email;
+				document.getElementById("eId").value = result.employementId;
+				document.getElementById("sdate").value = result.startDate;
+				document.getElementById("desig").value = result.designation;
+				document.getElementById("dept").value = result.department;
+				document.getElementById("eDate").value = result.endDate;
+				document.getElementById("status").value = result.status;
+				document.getElementById("dob").value = result.dob;
+				document.getElementById("rm").value = result.reportingManager;
+				document.getElementById("gen").value = result.gender;
+				document.getElementById("bGrp").value = result.bloodGroup;
+				document.getElementById("addr").value = result.address;								
+			});			
+		 document.getElementById("myForm").style.display = "block"; 
+		}
+
+		function closeForm() {
+		  document.getElementById("myForm").style.display = "none";
+		}	
+		
+		function editForm() {			
+			$.ajax({
+		        url: '/employees/save',
+		        type: 'Post',
+		        contentType: 'application/json; charset=utf-8',
+		        cache: false,
+		        dataType: 'json',
+		        async: false,
+		        data: JSON.stringify({id:document.getElementById("id").value,firstName:document.getElementById("fName").value ,lastName:document.getElementById("lName").value,
+		        	email:document.getElementById("mail").value,employementId:document.getElementById("eId").value,
+		        	startDate:document.getElementById("sdate").value,designation:document.getElementById("desig").value,
+		        	department:document.getElementById("dept").value,endDate:document.getElementById("eDate").value,
+		        	status:document.getElementById("status").value,dob:document.getElementById("dob").value,
+		        	reportingManager:document.getElementById("rm").value,gender:document.getElementById("gen").value,
+		        	bloodGroup:document.getElementById("bGrp").value,address:document.getElementById("addr").value}),		      
+			 success: function(data){
+			        alert('horray! Employee Id '+document.getElementById("id").value+ " updated succesfully!");
+			        var Table = document.getElementById("table");
+		        	Table.innerHTML = "";
+		        	closeForm();
+		            dispList();
+			    },
+			    error: function(data){
+			        //get the status code
+			        if (code == 400) {
+			            alert('400 status code! user error');
+			        }
+			        if (code == 500) {
+			            alert('500 status code! server error');
+			        }
+			    },
+		    });		
+		}
+		
+		function openDelete(value) {
+			jQuery.ajax({
+		        url: '/employees/' + value,
+		        type: 'DELETE',
+		        success: function(data) {
+		        	alert('horray! Employee Id '+document.getElementById("id").value+ " deleted succesfully!");
+		        	var Table = document.getElementById("table");
+		        	Table.innerHTML = "";
+		            dispList();
+		        }
+		    });		
+		}
+		
+		$(document).ready(dispList());
+		function dispList() {
+			$.ajaxSetup({
+				   headers:{
+				      'Auth-Key': "87bhxyzbhsg3455678csbabcy987656"
+				   }
+				});
+			$.getJSON("/employees/getList", function(result) {
+						var student = '';
+						student += '<tr>'
+							student += '<th>Id</th>'
+							student += '<th>First Name</th>'
+							student += '<th>Last Name</th>'
+							student += '<th>Email</th>'
+							student += '<th>Employement ID</th>'
+							student += '<th>Start Date</th>'
+							student += '<th>Designation</th>'
+								student += '<th>Department</th>'
+								student += '<th>End Date</th>'
+								student += '<th>Status</th>'
+								student += '<th>DOB</th>'
+								student += '<th>Reporting Manager</th>'
+								student += '<th>Gender</th>'
+								student += '<th>Blood Group</th>'
+								student += '<th>Address</th>'
+								student += '<th>Action</th>'
+								student += '</tr>'	
+						$.each(result, function(key, value) {	
+							
+							student += '<tr>';
+	                        student += '<td>' + 
+	                            value.id + '</td>';
+
+	                        student += '<td>' + 
+	                            value.firstName + '</td>';
+
+	                        student += '<td>' + 
+	                            value.lastName + '</td>';
+
+	                        student += '<td>' + 
+	                            value.email + '</td>';
+							
+	                            student += '<td>' + 
+	                            value.employementId + '</td>';
+
+	                            student += '<td>' + 
+	                            value.startDate + '</td>';
+
+	                            student += '<td>' + 
+	                            value.designation + '</td>';
+
+	                            student += '<td>' + 
+	                            value.department + '</td>';
+
+	                            student += '<td>' + 
+	                            value.endDate + '</td>';
+
+	                            student += '<td>' + 
+	                            value.status + '</td>';
+
+	                            student += '<td>' + 
+	                            value.dob + '</td>';
+
+	                            student += '<td>' + 
+	                            value.reportingManager + '</td>';
+
+	                            student += '<td>' + 
+	                            value.gender + '</td>';
+	                            
+	                            student += '<td>' + 
+	                            value.bloodGroup + '</td>';
+	                            
+	                            student += '<td>' + 
+	                            value.address + '</td>';
+								                            
+	                            student += '<td><button type="button" class="btn btn-info btn-sm ml-3 mr-1" onClick=openForm('+value.id+')>Update</button><button type="button" class="btn btn-info btn-sm ml-3 mr-1" onClick=openDelete('+value.id+')>Delete</button></td>';             					        					           			            			                                                                                                          	                         
+	                        student += '</tr>';						                       				
+						});					
+						 $('#table').append(student);	
+					});
+				}
+	</script>
+</table>
+		<button type="button" class="button" onclick="openAddForm()">Add Employee</buttton>
+	</section>		
+</div>	
+	
+</body>
+</html>
+
+
+

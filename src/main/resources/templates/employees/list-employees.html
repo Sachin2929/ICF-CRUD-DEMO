@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		table {
+  			border-collapse: collapse;
+  			border-spacing: 0;
+  			width: 100%;
+  			border: 1px solid #ddd;
+		}
+	
+		th, td {
+		border: 1px solid #dddddd;
+		  	text-align: left;  			  		
+  			padding: 5px 10px;
+  			width:80%
+		}
+		
+		tr:nth-child(even){background-color: #dddddd;}
+		
+					
+
+
+	</style>
+	    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<title>Employee Directory</title>
+	<script>
+	$(document).ready(
+			function() {
+				$.getJSON("http://localhost:8080/employees/getList", function(result) {
+					var student = '';
+					$.each(result, function(key, value) {	
+						student += '<tr>';
+                        student += '<td>' + 
+                            value.id + '</td>';
+
+                        student += '<td>' + 
+                            value.firstName + '</td>';
+
+                        student += '<td>' + 
+                            value.lastName + '</td>';
+
+                        student += '<td>' + 
+                            value.email + '</td>';
+
+                        student += '</tr>';
+						
+                        $('#employeesJson').append(student);						
+					});					
+				});
+			});
+</script>
+</head>
+
+<body>
+
+<div id="employeesJson">	
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email</th>
+		</tr>
+	</table>		
+	</div>	
+	
+</body>
+</html>
+
+
+
